@@ -12,10 +12,6 @@ import 'package:sqflite/sqflite.dart';
 import 'constant.dart';
 import 'data/local_data.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -401,7 +397,8 @@ class Page3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.red, child: const Center(child: Text('Page 3')));
+        color: Colors.white,
+        child: const Center(child: Text('Tasks Completed')));
   }
 }
 

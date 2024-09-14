@@ -1,6 +1,5 @@
-import 'package:app2/view/home_page.dart';
+import 'package:app2/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: HomePage(),
+      // debugShowCheckedModeBanner: false,
+      // title: 'Flutter Demo',
+      home: SplashScreen(),
     );
   }
 }
