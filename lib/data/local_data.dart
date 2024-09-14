@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 late Database database;
 
-crateDataBase() async {
+Future<void> crateDataBase() async {
 // Get a location using getDatabasesPath
   var databasesPath = await getDatabasesPath();
   print(databasesPath);
@@ -45,8 +47,9 @@ insertDataBase({
   });
 }
 
-updateDatabase({String? title, String? time, String? date, int? id}) {
-  database.rawUpdate(
+Future<void> updateDatabase(
+    {String? title, String? time, String? date, int? id}) async {
+  await database.rawUpdate(
       'UPDATE Task SET title = ?, time = ? ,date = ?  WHERE id = ?',
       [title, time, date, id]).then((value) {
     print("$value is updated");
@@ -54,17 +57,17 @@ updateDatabase({String? title, String? time, String? date, int? id}) {
   });
 }
 
-updateStatus({String? status, int? id}) {
-  database.rawUpdate('UPDATE Task SET status = ?  WHERE id = ?', [status]).then(
-      (value) {
+Future<void> updateStatus({String? status, int? id}) async {
+  await database.rawUpdate(
+      'UPDATE Task SET status = ?  WHERE id = ?', [status]).then((value) {
     print("$value status is updated");
     getDataBase(database);
   });
 }
 
 // crud
-deleteDataBase({int? id}) {
-  database.rawDelete('DELETE FROM Test WHERE id = ?', [id]).then((value) {
+Future<void> deleteDataBase({int? id}) async {
+  await database.rawDelete('DELETE FROM Test WHERE id = ?', [id]).then((value) {
     print("$value is deleted ");
     getDataBase(database);
   });

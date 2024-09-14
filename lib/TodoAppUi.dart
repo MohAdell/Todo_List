@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+import 'package:app2/tasks_ui.dart';
+import 'package:app2/view/tasks_list.dart';
 import 'package:app2/view/widget/default_from_filed.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -154,31 +157,82 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
+  late final controller = SlidableController(this as TickerProvider);
+  List<Map> tasksList = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    crateDataBase();
+    getTask();
+  }
+
+  Future<void> getTask() async {
+    tasksList = await getDataBase(Database as Database);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(30),
-      width: 200,
-      height: 300,
-      color: Colors.white70,
-      child: Center(
-        /// adding GestureDetector
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            widget.controller?.jumpTo(2);
-          },
-          child:
-              // const Text('Tasks'),
-              Column(
-            children: [],
-          ),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Tasks"),
+          centerTitle: true,
+        ),
+        body: ListView(
+          children: [
+            Slidable(
+              // Specify a key if the Slidable is dismissible.
+              key: const ValueKey(0),
+
+              // The start action pane is the one at the left or the top side.
+              startActionPane: ActionPane(
+                // A motion is a widget used to control how the pane animates.
+                motion: const ScrollMotion(),
+
+                // A pane can dismiss the Slidable.
+                dismissible: DismissiblePane(onDismissed: () {}),
+
+                // All actions are defined in the children parameter.
+                children: const [
+                  // A SlidableAction can have an icon and/or a label.
+                  SlidableAction(
+                    onPressed: doNothing,
+                    backgroundColor: Color(0xFFFE4A49),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+
+              // The end action pane is the one at the right or the bottom side.
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    // An action can be bigger than the others.
+                    flex: 2,
+                    onPressed: (_) => controller.openEndActionPane(),
+                    backgroundColor: const Color(0xFF7BC043),
+                    foregroundColor: Colors.white,
+                    icon: Icons.task_alt_sharp,
+                    label: 'Done',
+                  ),
+                ],
+              ),
+
+              // The child of the Slidable is what the user sees when the
+              // component is not dragged.
+              child: const ListTile(
+                title: Text("this text for test",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    )),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -371,3 +425,5 @@ class Page5 extends StatelessWidget {
         child: const Center(child: Text('Page 5')));
   }
 }
+
+void doNothing(BuildContext context) {}

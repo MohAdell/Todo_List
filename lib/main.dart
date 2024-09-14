@@ -1,4 +1,3 @@
-import 'package:app2/test_code.dart';
 import 'package:app2/view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
