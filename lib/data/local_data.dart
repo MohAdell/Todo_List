@@ -88,6 +88,11 @@ getDataBase(Database dataBase) {
   });
 }
 
+deletAllTasks() async {
+  await database.rawDelete('DELETE FROM Task');
+  print("All Tasks Deleted");
+}
+
 Future addDataLocally({title, time, date}) async {
   final db = await database;
   await db.insert('Task', {'title': title, 'time': time, 'date': date});
